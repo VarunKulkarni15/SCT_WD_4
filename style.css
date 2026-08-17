@@ -324,6 +324,7 @@ input:checked + .slider:before {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 5px; /* Prevent hover slice */
 }
 
 .task-item {
