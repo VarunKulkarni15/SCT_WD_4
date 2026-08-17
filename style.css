@@ -333,38 +333,42 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
     gap: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     position: relative;
     overflow: hidden;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease, opacity 0.3s ease;
     /* Animation removed from base class to fix flash bug */
+}
+
+.task-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    border-color: rgba(79, 114, 110, 0.5); /* Subtle accent color glow */
 }
 
 .task-item.animate-in {
     animation: slideIn 0.3s ease forwards;
 }
 
-.task-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 5px;
-    background: var(--accent-color);
-    border-radius: 5px 0 0 5px;
-    transition: background 0.3s;
-}
-
 .task-item.high-priority {
-    border: 1px solid rgba(229, 115, 115, 0.2);
+    border: 1px solid rgba(229, 115, 115, 0.3);
+    background: linear-gradient(to right, rgba(229, 115, 115, 0.05), var(--surface-color));
 }
 
-.task-item.high-priority::before {
-    background: var(--danger-color);
+.task-item.high-priority:hover {
+    border-color: var(--danger-color);
+    box-shadow: 0 12px 24px rgba(229, 115, 115, 0.15);
 }
 
-.task-item.completed::before {
-    background: var(--surface-hover); /* De-emphasize completed items */
+.task-item.completed {
+    opacity: 0.55;
+    background: var(--surface-hover);
+}
+
+.task-item.completed:hover {
+    transform: translateY(0);
+    box-shadow: none;
+    border-color: rgba(255, 255, 255, 0.05);
 }
 
 .task-item.completed .task-title {
