@@ -519,6 +519,15 @@ span.flatpickr-weekday {
 .flatpickr-time input:focus,
 .flatpickr-time .flatpickr-am-pm:focus {
     background: var(--surface-hover) !important;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.flatpickr-time input,
+.flatpickr-time .flatpickr-am-pm {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .flatpickr-time .numInputWrapper span.arrowUp:after {

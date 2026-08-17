@@ -41,16 +41,8 @@ function loadTasks() {
             tasks = [];
         }
     } else {
-        // Default example task if brand new
-        tasks = [
-            {
-                id: Date.now().toString(),
-                title: "Buy groceries for dinner",
-                date: new Date().toISOString().split('T')[0],
-                time: "17:00",
-                completed: true
-            }
-        ];
+        // Empty array for a clean slate
+        tasks = [];
         saveTasks();
     }
 }
@@ -61,7 +53,8 @@ function loadTasks() {
 let datePicker = flatpickr(inputDate, {
     dateFormat: "Y-m-d",
     allowInput: true,
-    disableMobile: true
+    disableMobile: true,
+    position: "auto center"
 });
 
 let timePicker = flatpickr(inputTime, {
@@ -70,7 +63,8 @@ let timePicker = flatpickr(inputTime, {
     dateFormat: "h:i K", // 12-hour format with AM/PM
     time_24hr: false,
     allowInput: true,
-    disableMobile: true
+    disableMobile: true,
+    position: "auto right" // Anchors to the right edge so it doesn't overflow the modal
 });
 
 // -----------------------------------------
