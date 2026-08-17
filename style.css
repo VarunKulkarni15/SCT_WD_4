@@ -213,6 +213,8 @@ body {
     font-family: var(--font-ui);
     outline: none;
     transition: border-color 0.2s;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .input-group input:focus {
@@ -544,6 +546,8 @@ span.flatpickr-weekday {
     outline: none !important;
     box-shadow: none !important;
     border-radius: 12px !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
 }
 
 /* Offset standalone time picker so it doesn't overflow the right edge of modal */
