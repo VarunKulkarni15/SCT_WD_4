@@ -229,6 +229,65 @@ body {
     flex: 1;
 }
 
+.priority-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.8rem 1rem;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.priority-label {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Switch Toggle Styling */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: .3s;
+    border-radius: 24px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--text-secondary);
+    transition: .3s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: var(--danger-color);
+}
+input:checked + .slider:before {
+    transform: translateX(20px);
+    background-color: #fff;
+}
+
 .submit-btn {
     width: 100%;
     padding: 1rem;
@@ -277,6 +336,10 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.03);
     position: relative;
     overflow: hidden;
+    /* Animation removed from base class to fix flash bug */
+}
+
+.task-item.animate-in {
     animation: slideIn 0.3s ease forwards;
 }
 
@@ -289,6 +352,15 @@ body {
     width: 5px;
     background: var(--accent-color);
     border-radius: 5px 0 0 5px;
+    transition: background 0.3s;
+}
+
+.task-item.high-priority {
+    border: 1px solid rgba(229, 115, 115, 0.2);
+}
+
+.task-item.high-priority::before {
+    background: var(--danger-color);
 }
 
 .task-item.completed::before {
