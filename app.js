@@ -23,14 +23,6 @@ let notificationTimers = {}; // Store timers to clear them if tasks are deleted/
 // Boot up
 document.addEventListener('DOMContentLoaded', () => {
     loadTasks();
-    
-    // Request Notification Permissions for Local Notifications
-    if ("Notification" in window) {
-        if (Notification.permission !== "granted" && Notification.permission !== "denied") {
-            Notification.requestPermission();
-        }
-    }
-    
     renderTasks();
 });
 
@@ -167,8 +159,13 @@ function scheduleNotification(task) {
 // -----------------------------------------
 // CRUD Operations
 // -----------------------------------------
-taskForm.addEventListener('submit', (e) => {
+taskForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    
+    // Request Notification permission on user gesture (Save button)
+    if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+        await Notification.requestPermission();
+    }
     
     const id = inputId.value;
     const title = inputTitle.value.trim();
