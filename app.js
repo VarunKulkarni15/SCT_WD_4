@@ -217,8 +217,12 @@ taskForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     // Request Notification permission on user gesture (Save button)
-    if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
-        await Notification.requestPermission();
+    try {
+        if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+            await Notification.requestPermission();
+        }
+    } catch (e) {
+        console.warn("Notification permission error:", e);
     }
     
     const id = inputId.value;
