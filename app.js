@@ -60,10 +60,15 @@ function addFigmaScrubbing(timeContainer) {
         let isDragging = false;
         let startY = 0;
         
-        // Change cursor to indicate vertical dragging
+        // Change cursor to indicate vertical dragging and disable user selection
         input.style.cursor = 'ns-resize';
+        input.style.userSelect = 'none';
+        input.style.webkitUserSelect = 'none';
         
         input.addEventListener('mousedown', (e) => {
+            // Prevent text selection highlight while dragging
+            e.preventDefault();
+            
             isDragging = true;
             startY = e.clientY;
             

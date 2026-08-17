@@ -514,6 +514,11 @@ span.flatpickr-weekday {
     color: #fff !important;
 }
 
+.flatpickr-time {
+    border-radius: 16px !important;
+    overflow: hidden !important;
+}
+
 .flatpickr-time input:hover,
 .flatpickr-time .flatpickr-am-pm:hover,
 .flatpickr-time input:focus,
@@ -524,10 +529,26 @@ span.flatpickr-weekday {
     box-shadow: none !important;
 }
 
+.flatpickr-time .numInputWrapper {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.flatpickr-time .flatpickr-am-pm {
+    border-radius: 12px;
+    margin: 2px;
+}
+
 .flatpickr-time input,
 .flatpickr-time .flatpickr-am-pm {
     outline: none !important;
     box-shadow: none !important;
+    border-radius: 12px !important;
+}
+
+/* Offset standalone time picker so it doesn't overflow the right edge of modal */
+.flatpickr-calendar.hasTime.noCalendar {
+    transform: translateX(-15px) !important;
 }
 
 .flatpickr-time .numInputWrapper span.arrowUp:after {
