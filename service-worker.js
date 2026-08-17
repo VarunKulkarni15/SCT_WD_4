@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sleek-todo-v5-' + new Date().getTime();
+const CACHE_NAME = 'sleek-todo-v6-' + new Date().getTime();
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
