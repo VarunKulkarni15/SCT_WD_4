@@ -48,6 +48,61 @@ function loadTasks() {
 }
 
 // -----------------------------------------
+// Figma-style Scrubbing Logic
+// -----------------------------------------
+function addFigmaScrubbing(timeContainer) {
+    if (!timeContainer) return;
+    
+    // Find the hour and minute inputs
+    const numInputs = timeContainer.querySelectorAll('.numInput');
+    
+    numInputs.forEach(input => {
+        let isDragging = false;
+        let startY = 0;
+        
+        // Change cursor to indicate vertical dragging
+        input.style.cursor = 'ns-resize';
+        
+        input.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startY = e.clientY;
+            
+            const onMouseMove = (moveEvent) => {
+                if (!isDragging) return;
+                
+                const currentY = moveEvent.clientY;
+                const diff = startY - currentY; // Positive if dragging UP
+                
+                // Sensitivity threshold (drag 8 pixels to trigger 1 step)
+                if (Math.abs(diff) > 8) {
+                    // Dispatch a synthetic scroll wheel event that Flatpickr natively listens to!
+                    const wheelEvent = new WheelEvent('wheel', {
+                        deltaY: diff > 0 ? -100 : 100, // Negative deltaY = scroll up = increment
+                        bubbles: true,
+                        cancelable: true
+                    });
+                    input.dispatchEvent(wheelEvent);
+                    
+                    // Reset start Y for continuous scrubbing
+                    startY = currentY;
+                }
+            };
+            
+            const onMouseUp = () => {
+                if (isDragging) {
+                    isDragging = false;
+                    document.removeEventListener('mousemove', onMouseMove);
+                    document.removeEventListener('mouseup', onMouseUp);
+                }
+            };
+            
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+    });
+}
+
+// -----------------------------------------
 // Flatpickr Initialization
 // -----------------------------------------
 let datePicker = flatpickr(inputDate, {
@@ -64,7 +119,10 @@ let timePicker = flatpickr(inputTime, {
     time_24hr: false,
     allowInput: true,
     disableMobile: true,
-    position: "auto right" // Anchors to the right edge so it doesn't overflow the modal
+    position: "auto right", // Anchors to the right edge so it doesn't overflow the modal
+    onReady: function(selectedDates, dateStr, instance) {
+        addFigmaScrubbing(instance.timeContainer);
+    }
 });
 
 // -----------------------------------------
