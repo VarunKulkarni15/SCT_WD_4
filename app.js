@@ -145,9 +145,19 @@ function scheduleNotification(task) {
         if (timeUntilDue > 0 && timeUntilDue <= 86400000 * 30) {
             notificationTimers[task.id] = setTimeout(() => {
                 if ("Notification" in window && Notification.permission === "granted") {
-                    new Notification("Sleek To-Do Reminder", {
-                        body: task.title
-                    });
+                    if (navigator.serviceWorker) {
+                        navigator.serviceWorker.ready.then(registration => {
+                            registration.showNotification("Sleek To-Do Reminder", {
+                                body: task.title,
+                                icon: "icon-192.png"
+                            });
+                        });
+                    } else {
+                        new Notification("Sleek To-Do Reminder", {
+                            body: task.title,
+                            icon: "icon-192.png"
+                        });
+                    }
                 }
             }, timeUntilDue);
         }
