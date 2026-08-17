@@ -176,16 +176,27 @@ function scheduleNotification(task) {
         
         const taskDate = new Date(year, month - 1, day, hours, minutes, 0, 0);
         const now = new Date();
+        // Calculate time until due
         const timeUntilDue = taskDate.getTime() - now.getTime();
         
         // Schedule if due within next 30 days
         if (timeUntilDue > 0 && timeUntilDue <= 86400000 * 30) {
+            
+            // 1. Try True Offline Background Notifications (Web Triggers API)
+            if ('showTrigger' in Notification.prototype && navigator.serviceWorker) {
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.showNotification("Sleek To-Do Reminder", {
+                        body: task.title,
+                        icon: "icon-192.png",
+                        showTrigger: new TimestampTrigger(taskDate.getTime())
+                    }).catch(e => console.warn("Trigger API failed, falling back", e));
+                });
+            }
+            
+            // 2. Fallback to in-app timer (only works if tab remains open)
             notificationTimers[task.id] = setTimeout(() => {
-                
-                // ALWAYS show In-App Toast
                 showToast("Task Reminder", task.title);
                 
-                // Try OS Desktop Notification
                 if ("Notification" in window && Notification.permission === "granted") {
                     try {
                         new Notification("Sleek To-Do Reminder", {
@@ -194,11 +205,8 @@ function scheduleNotification(task) {
                         });
                     } catch (err) {
                         if (navigator.serviceWorker) {
-                            navigator.serviceWorker.ready.then(registration => {
-                                registration.showNotification("Sleek To-Do Reminder", {
-                                    body: task.title,
-                                    icon: "icon-192.png"
-                                });
+                            navigator.serviceWorker.ready.then(reg => {
+                                reg.showNotification("Sleek To-Do Reminder", { body: task.title, icon: "icon-192.png" });
                             });
                         }
                     }
