@@ -48,66 +48,6 @@ function loadTasks() {
 }
 
 // -----------------------------------------
-// Figma-style Scrubbing Logic
-// -----------------------------------------
-function addFigmaScrubbing(timeContainer) {
-    if (!timeContainer) return;
-    
-    // Find the hour and minute inputs
-    const numInputs = timeContainer.querySelectorAll('.numInput');
-    
-    numInputs.forEach(input => {
-        let isDragging = false;
-        let startY = 0;
-        
-        // Change cursor to indicate vertical dragging and disable user selection
-        input.style.cursor = 'ns-resize';
-        input.style.userSelect = 'none';
-        input.style.webkitUserSelect = 'none';
-        
-        input.addEventListener('mousedown', (e) => {
-            // Prevent native text selection highlight
-            e.preventDefault();
-            
-            // Temporary readonly to absolutely prevent browser text highlighting while dragging
-            input.setAttribute('readonly', 'true');
-            
-            isDragging = true;
-            startY = e.clientY;
-            
-            const onMouseMove = (moveEvent) => {
-                if (!isDragging) return;
-                
-                const currentY = moveEvent.clientY;
-                const diff = startY - currentY; 
-                
-                if (Math.abs(diff) > 8) {
-                    const wheelEvent = new WheelEvent('wheel', {
-                        deltaY: diff > 0 ? -100 : 100, 
-                        bubbles: true,
-                        cancelable: true
-                    });
-                    input.dispatchEvent(wheelEvent);
-                    startY = currentY;
-                }
-            };
-            
-            const onMouseUp = () => {
-                if (isDragging) {
-                    isDragging = false;
-                    input.removeAttribute('readonly'); // Restore normal typing
-                    document.removeEventListener('mousemove', onMouseMove);
-                    document.removeEventListener('mouseup', onMouseUp);
-                }
-            };
-            
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', onMouseUp);
-        });
-    });
-}
-
-// -----------------------------------------
 // Flatpickr Initialization
 // -----------------------------------------
 let datePicker = flatpickr(inputDate, {
@@ -124,10 +64,7 @@ let timePicker = flatpickr(inputTime, {
     time_24hr: false,
     allowInput: true,
     disableMobile: true,
-    position: "auto center", // Center to prevent right-edge overflow
-    onReady: function(selectedDates, dateStr, instance) {
-        addFigmaScrubbing(instance.timeContainer);
-    }
+    position: "auto center" // Center to prevent right-edge overflow
 });
 
 // -----------------------------------------
