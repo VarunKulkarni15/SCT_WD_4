@@ -106,7 +106,7 @@ function addFigmaScrubbing(timeContainer) {
 // Flatpickr Initialization
 // -----------------------------------------
 let datePicker = flatpickr(inputDate, {
-    dateFormat: "Y-m-d",
+    dateFormat: "d-m-Y", // Indian Date Format (DD-MM-YYYY)
     allowInput: true,
     disableMobile: true,
     position: "auto center"
@@ -144,7 +144,9 @@ function openModal(isEdit = false, task = null) {
         
         // Default to today and current time rounded to nearest hour
         const now = new Date();
-        const dateStr = now.toISOString().split('T')[0];
+        const dateStr = now.getDate().toString().padStart(2, '0') + '-' + 
+                        (now.getMonth() + 1).toString().padStart(2, '0') + '-' + 
+                        now.getFullYear();
         const timeStr = `${String(now.getHours() + 1).padStart(2, '0')}:00`;
         
         datePicker.setDate(dateStr);
