@@ -163,15 +163,17 @@ body {
     background: var(--surface-color);
     width: 100%;
     max-width: 500px;
-    border-radius: 28px 28px 0 0; /* Extra smooth curves */
+    border-radius: 28px 28px 0 0;
     padding: 2rem 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    transform: translateY(0);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateY(100%) scale(0.95);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
 }
 
-.modal-overlay.hidden .modal-content {
-    transform: translateY(100%);
+.modal-overlay:not(.hidden) .modal-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
 }
 
 .modal-header {
@@ -455,9 +457,16 @@ body {
 .flatpickr-calendar {
     background: var(--surface-color) !important;
     border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.7) !important;
     border-radius: 16px !important;
     font-family: var(--font-ui) !important;
+    z-index: 99999 !important; /* Force to float above everything */
+    animation: popupAnim 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popupAnim {
+    from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .flatpickr-months .flatpickr-month,
@@ -523,10 +532,4 @@ span.flatpickr-weekday {
 }
 .flatpickr-time .numInputWrapper span:hover.arrowDown:after {
     border-top-color: var(--accent-color) !important;
-}
-
-/* Ensure modal contents can scroll if flatpickr expands static */
-.modal-content {
-    max-height: 90vh;
-    overflow-y: auto;
 }

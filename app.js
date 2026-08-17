@@ -61,18 +61,16 @@ function loadTasks() {
 let datePicker = flatpickr(inputDate, {
     dateFormat: "Y-m-d",
     allowInput: true,
-    disableMobile: true,
-    static: true // Embeds picker inside the wrapper to prevent float-out
+    disableMobile: true
 });
 
 let timePicker = flatpickr(inputTime, {
     enableTime: true,
     noCalendar: true,
-    dateFormat: "H:i",
-    time_24hr: true,
+    dateFormat: "h:i K", // 12-hour format with AM/PM
+    time_24hr: false,
     allowInput: true,
-    disableMobile: true,
-    static: true
+    disableMobile: true
 });
 
 // -----------------------------------------
