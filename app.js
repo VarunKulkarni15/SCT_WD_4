@@ -115,8 +115,41 @@ modal.addEventListener('click', (e) => {
 });
 
 // -----------------------------------------
-// Notifications
+// Notifications & Toast
 // -----------------------------------------
+function showToast(title, message) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `
+        <div class="toast-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+        </div>
+        <div class="toast-content">
+            <span class="toast-title">${title}</span>
+            <span class="toast-message">${message}</span>
+        </div>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 400);
+    }, 5000);
+    
+    toast.addEventListener('click', () => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 400);
+    });
+}
+
 function scheduleNotification(task) {
     if (notificationTimers[task.id]) {
         clearTimeout(notificationTimers[task.id]);
@@ -126,7 +159,11 @@ function scheduleNotification(task) {
     if (task.completed) return;
     
     try {
-        const [day, month, year] = task.date.split('-');
+        const parts = task.date.split('-');
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10);
+        const year = parseInt(parts[2], 10);
+        
         const timeMatch = task.time.match(/(\d+):(\d+)\s(AM|PM)/i);
         if (!timeMatch) return;
         
@@ -144,19 +181,26 @@ function scheduleNotification(task) {
         // Schedule if due within next 30 days
         if (timeUntilDue > 0 && timeUntilDue <= 86400000 * 30) {
             notificationTimers[task.id] = setTimeout(() => {
+                
+                // ALWAYS show In-App Toast
+                showToast("Task Reminder", task.title);
+                
+                // Try OS Desktop Notification
                 if ("Notification" in window && Notification.permission === "granted") {
-                    if (navigator.serviceWorker) {
-                        navigator.serviceWorker.ready.then(registration => {
-                            registration.showNotification("Sleek To-Do Reminder", {
-                                body: task.title,
-                                icon: "icon-192.png"
-                            });
-                        });
-                    } else {
+                    try {
                         new Notification("Sleek To-Do Reminder", {
                             body: task.title,
                             icon: "icon-192.png"
                         });
+                    } catch (err) {
+                        if (navigator.serviceWorker) {
+                            navigator.serviceWorker.ready.then(registration => {
+                                registration.showNotification("Sleek To-Do Reminder", {
+                                    body: task.title,
+                                    icon: "icon-192.png"
+                                });
+                            });
+                        }
                     }
                 }
             }, timeUntilDue);
