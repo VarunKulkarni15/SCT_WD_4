@@ -541,6 +541,7 @@ input:checked + .slider:before {
     font-family: var(--font-ui) !important;
     z-index: 99999 !important; /* Force to float above everything */
     animation: popupAnim 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden !important;
 }
 
 @keyframes popupAnim {
