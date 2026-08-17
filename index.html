@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sleek To-Do</title>
+    
+    <!-- Fonts: Inter for modern Apple-like UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#b142fe">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+
+    <div class="app-container">
+        
+        <!-- Header Section -->
+        <header class="header-section">
+            <div class="header-top">
+                <h1>Tasks</h1>
+                <button id="add-btn" class="icon-btn add-btn" title="Add New Task">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Filters -->
+            <div class="filters">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="pending">Pending</button>
+                <button class="filter-tab" data-filter="completed">Completed</button>
+            </div>
+        </header>
+
+        <!-- Input Modal (Hidden by default) -->
+        <div id="task-modal" class="modal-overlay hidden">
+            <div class="modal-content glass-panel">
+                <div class="modal-header">
+                    <h2 id="modal-title">New Task</h2>
+                    <button id="close-modal" class="icon-btn close-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <form id="task-form">
+                    <input type="hidden" id="task-id">
+                    
+                    <div class="input-group">
+                        <label for="task-title">What needs to be done?</label>
+                        <input type="text" id="task-title" placeholder="e.g. Buy groceries" required autocomplete="off">
+                    </div>
+                    
+                    <div class="datetime-row">
+                        <div class="input-group">
+                            <label for="task-date">Date</label>
+                            <input type="date" id="task-date" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="task-time">Time</label>
+                            <input type="time" id="task-time" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Save Task</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Task List Area -->
+        <main class="task-list-container">
+            <div id="empty-state" class="empty-state hidden">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <p>All clear! You have no tasks here.</p>
+            </div>
+            
+            <ul id="task-list" class="task-list">
+                <!-- Tasks will be injected here by JS -->
+            </ul>
+        </main>
+
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Register Service Worker for Offline Mode
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => console.log('ServiceWorker registered'))
+                    .catch(error => console.log('ServiceWorker registration failed:', error));
+            });
+        }
+    </script>
+</body>
+</html>

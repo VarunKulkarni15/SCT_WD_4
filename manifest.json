@@ -1,0 +1,16 @@
+{
+  "name": "Sleek To-Do",
+  "short_name": "Tasks",
+  "description": "Premium To-Do Web Application",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0d0f",
+  "theme_color": "#b142fe",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/906/906334.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
