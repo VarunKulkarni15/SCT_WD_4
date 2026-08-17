@@ -56,22 +56,6 @@ function loadTasks() {
 }
 
 // -----------------------------------------
-// Flatpickr Initialization
-// -----------------------------------------
-let datePicker = flatpickr(inputDate, {
-    dateFormat: "Y-m-d",
-    allowInput: true
-});
-
-let timePicker = flatpickr(inputTime, {
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: "H:i",
-    time_24hr: true,
-    allowInput: true
-});
-
-// -----------------------------------------
 // Modal Logic
 // -----------------------------------------
 function openModal(isEdit = false, task = null) {
@@ -81,8 +65,8 @@ function openModal(isEdit = false, task = null) {
         modalTitle.textContent = "Edit Task";
         inputId.value = task.id;
         inputTitle.value = task.title;
-        datePicker.setDate(task.date);
-        timePicker.setDate(task.time);
+        inputDate.value = task.date;
+        inputTime.value = task.time;
     } else {
         modalTitle.textContent = "New Task";
         inputId.value = "";
@@ -93,8 +77,8 @@ function openModal(isEdit = false, task = null) {
         const dateStr = now.toISOString().split('T')[0];
         const timeStr = `${String(now.getHours() + 1).padStart(2, '0')}:00`;
         
-        datePicker.setDate(dateStr);
-        timePicker.setDate(timeStr);
+        inputDate.value = dateStr;
+        inputTime.value = timeStr;
     }
     
     setTimeout(() => inputTitle.focus(), 100);
