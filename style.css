@@ -448,3 +448,85 @@ body {
         align-items: center;
     }
 }
+
+/* --------------------------------------
+   Flatpickr Custom Theme Overrides
+   -------------------------------------- */
+.flatpickr-calendar {
+    background: var(--surface-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+    border-radius: 16px !important;
+    font-family: var(--font-ui) !important;
+}
+
+.flatpickr-months .flatpickr-month,
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year {
+    background: var(--surface-color) !important;
+    color: var(--text-primary) !important;
+}
+
+span.flatpickr-weekday {
+    color: var(--text-secondary) !important;
+    font-weight: 600 !important;
+}
+
+.flatpickr-day {
+    color: var(--text-primary) !important;
+    border-radius: 8px !important;
+}
+
+.flatpickr-day:hover {
+    background: var(--surface-hover) !important;
+    border-color: var(--surface-hover) !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
+.flatpickr-day.endRange.nextMonthDay {
+    background: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+    color: #fff !important;
+}
+
+.flatpickr-time input:hover,
+.flatpickr-time .flatpickr-am-pm:hover,
+.flatpickr-time input:focus,
+.flatpickr-time .flatpickr-am-pm:focus {
+    background: var(--surface-hover) !important;
+}
+
+.flatpickr-time .numInputWrapper span.arrowUp:after {
+    border-bottom-color: var(--text-secondary) !important;
+}
+.flatpickr-time .numInputWrapper span.arrowDown:after {
+    border-top-color: var(--text-secondary) !important;
+}
+.flatpickr-time .numInputWrapper span:hover.arrowUp:after {
+    border-bottom-color: var(--accent-color) !important;
+}
+.flatpickr-time .numInputWrapper span:hover.arrowDown:after {
+    border-top-color: var(--accent-color) !important;
+}
+
+/* Ensure modal contents can scroll if flatpickr expands static */
+.modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+}
