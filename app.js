@@ -66,8 +66,11 @@ function addFigmaScrubbing(timeContainer) {
         input.style.webkitUserSelect = 'none';
         
         input.addEventListener('mousedown', (e) => {
-            // Prevent text selection highlight while dragging
+            // Prevent native text selection highlight
             e.preventDefault();
+            
+            // Temporary readonly to absolutely prevent browser text highlighting while dragging
+            input.setAttribute('readonly', 'true');
             
             isDragging = true;
             startY = e.clientY;
@@ -76,19 +79,15 @@ function addFigmaScrubbing(timeContainer) {
                 if (!isDragging) return;
                 
                 const currentY = moveEvent.clientY;
-                const diff = startY - currentY; // Positive if dragging UP
+                const diff = startY - currentY; 
                 
-                // Sensitivity threshold (drag 8 pixels to trigger 1 step)
                 if (Math.abs(diff) > 8) {
-                    // Dispatch a synthetic scroll wheel event that Flatpickr natively listens to!
                     const wheelEvent = new WheelEvent('wheel', {
-                        deltaY: diff > 0 ? -100 : 100, // Negative deltaY = scroll up = increment
+                        deltaY: diff > 0 ? -100 : 100, 
                         bubbles: true,
                         cancelable: true
                     });
                     input.dispatchEvent(wheelEvent);
-                    
-                    // Reset start Y for continuous scrubbing
                     startY = currentY;
                 }
             };
@@ -96,6 +95,7 @@ function addFigmaScrubbing(timeContainer) {
             const onMouseUp = () => {
                 if (isDragging) {
                     isDragging = false;
+                    input.removeAttribute('readonly'); // Restore normal typing
                     document.removeEventListener('mousemove', onMouseMove);
                     document.removeEventListener('mouseup', onMouseUp);
                 }
@@ -124,7 +124,7 @@ let timePicker = flatpickr(inputTime, {
     time_24hr: false,
     allowInput: true,
     disableMobile: true,
-    position: "auto right", // Anchors to the right edge so it doesn't overflow the modal
+    position: "auto center", // Center to prevent right-edge overflow
     onReady: function(selectedDates, dateStr, instance) {
         addFigmaScrubbing(instance.timeContainer);
     }
