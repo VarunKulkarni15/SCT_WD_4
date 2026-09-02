@@ -1,11 +1,11 @@
 {
-  "name": "Sleek To-Do",
+  "name": "Sleek Task Manager",
   "short_name": "Tasks",
-  "description": "Premium To-Do Web Application",
+  "description": "Minimalist, High-Performance Task Manager",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0d0d0f",
-  "theme_color": "#b142fe",
+  "background_color": "#ffffff",
+  "theme_color": "#1b6f53",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/906/906334.png",

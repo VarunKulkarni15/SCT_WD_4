@@ -2,90 +2,213 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sleek Task Manager</title>
     <!-- Inter Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Flatpickr for explicit Calendar/Time -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Top Header -->
-        <header class="header">
-            <div class="header-left">
-                <h1>All tasks</h1>
-                <span id="task-count" class="task-count">0 tasks</span>
-            </div>
-            <div class="header-right">
-                <div class="search-container">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="search-input" placeholder="Search">
+    <div class="app-layout">
+        <div class="app-container">
+            <!-- Header Section -->
+            <header class="header">
+                <div class="header-left">
+                    <h1 class="header-title">All tasks</h1>
+                    <span id="task-count" class="task-count">3 tasks</span>
                 </div>
-                <div class="sort-container">
-                    <select id="sort-select">
-                        <option value="newest">Newest</option>
-                        <option value="oldest">Oldest</option>
-                    </select>
+                <div class="header-right">
+                    <div class="search-box">
+                        <svg class="icon-search" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="search-input" placeholder="Search" autocomplete="off">
+                    </div>
+                    <div class="sort-wrapper">
+                        <select id="sort-select" class="sort-select" title="Sort tasks">
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                            <option value="priority">Priority</option>
+                            <option value="due">Due Date</option>
+                        </select>
+                        <svg class="icon-select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Add Task Input Area -->
-            <form id="task-form" class="task-input-container">
-                <div class="input-wrapper">
-                    <i class="fa-solid fa-plus input-icon"></i>
-                    <input type="text" id="task-input" placeholder="Add a task... or type '!high', 'tomorrow', '@work'" autocomplete="off">
-                </div>
-                <div class="input-actions">
-                    <input type="text" id="date-picker" class="hidden-picker" placeholder="Date">
-                    <button type="button" class="action-icon-btn" id="btn-calendar" title="Set Date & Time">
-                        <i class="fa-regular fa-calendar"></i>
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="pending">Pending</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+            </div>
+
+            <!-- Task Input Card -->
+            <div class="task-input-card">
+                <form id="task-form" class="task-input-bar">
+                    <span class="plus-icon" aria-hidden="true">+</span>
+                    <input 
+                        type="text" 
+                        id="task-input" 
+                        class="task-input-field" 
+                        placeholder="Add a task... type: report tomorrow 5pm !high" 
+                        autocomplete="off"
+                        required
+                    >
+                    <button type="button" id="toggle-options-btn" class="icon-toggle-btn" title="Toggle detailed task options (Date, Time, Priority, Tag)" aria-label="Toggle options">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
                     </button>
-                    <button type="submit" class="btn-add">Add</button>
+                    <button type="submit" id="add-task-btn" class="btn-primary">Add</button>
+                </form>
+
+                <!-- Expandable Options Tray -->
+                <div id="options-tray" class="options-tray hidden">
+                    <div class="options-grid">
+                        <!-- Date & Time Picker -->
+                        <div class="option-group">
+                            <label class="option-label">Due Date & Time</label>
+                            <div class="datetime-inputs">
+                                <input type="date" id="option-date" class="option-date-input">
+                                <input type="time" id="option-time" class="option-time-input">
+                            </div>
+                            <div class="quick-chips">
+                                <button type="button" class="chip-btn" data-preset="today">Today</button>
+                                <button type="button" class="chip-btn" data-preset="tomorrow">Tomorrow</button>
+                                <button type="button" class="chip-btn" data-preset="weekend">Weekend</button>
+                            </div>
+                        </div>
+
+                        <!-- Priority Selector -->
+                        <div class="option-group">
+                            <label class="option-label">Priority</label>
+                            <div class="priority-chips">
+                                <button type="button" class="priority-btn" data-priority="low">
+                                    <span class="bars-icon bars-low"></span> Low
+                                </button>
+                                <button type="button" class="priority-btn" data-priority="medium">
+                                    <span class="bars-icon bars-med"></span> Medium
+                                </button>
+                                <button type="button" class="priority-btn" data-priority="high">
+                                    <span class="bars-icon bars-high"></span> High
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Category Tag -->
+                        <div class="option-group">
+                            <label class="option-label">Category</label>
+                            <div class="tag-chips">
+                                <button type="button" class="tag-btn" data-tag="Coding">Coding</button>
+                                <button type="button" class="tag-btn" data-tag="College">College</button>
+                                <button type="button" class="tag-btn" data-tag="Personal">Personal</button>
+                                <button type="button" class="tag-btn" data-tag="Work">Work</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
-
-            <!-- Task List -->
-            <div class="task-list" id="task-list">
-                <!-- Tasks will be dynamically injected here -->
             </div>
-        </main>
 
-        <!-- Keyboard Shortcuts Legend -->
-        <footer class="shortcuts-legend">
-            <div class="shortcut"><kbd>N</kbd> new task</div>
-            <div class="shortcut"><kbd>/</kbd> search</div>
-            <div class="shortcut"><kbd>Esc</kbd> close or cancel</div>
-        </footer>
-    </div>
-
-    <!-- Edit Task Modal (Hidden by Default) -->
-    <div id="edit-modal" class="modal hidden">
-        <div class="modal-content">
-            <h3>Edit Task</h3>
-            <input type="text" id="edit-input" class="edit-input">
-            <div class="modal-actions">
-                <button type="button" id="cancel-edit" class="btn-secondary">Cancel</button>
-                <button type="button" id="save-edit" class="btn-primary">Save</button>
+            <!-- Task List Container -->
+            <div id="task-list" class="task-list" role="list">
+                <!-- Dynamically generated tasks will appear here -->
             </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="empty-state hidden">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 14 14"></polyline>
+                </svg>
+                <p class="empty-title">No tasks found</p>
+                <p class="empty-desc">Type above or press <kbd>N</kbd> to create your first task.</p>
+            </div>
+
+            <!-- Keyboard Shortcuts Legend -->
+            <footer class="shortcuts-legend">
+                <div class="shortcut-item"><kbd>N</kbd> new task</div>
+                <div class="shortcut-item"><kbd>/</kbd> search</div>
+                <div class="shortcut-item"><kbd>Esc</kbd> close or cancel</div>
+            </footer>
         </div>
     </div>
 
+    <!-- Edit Task Modal -->
+    <div id="edit-modal" class="modal-backdrop hidden">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Task</h3>
+                <button type="button" id="close-modal-btn" class="modal-close-btn" aria-label="Close modal">&times;</button>
+            </div>
+            <form id="edit-form">
+                <div class="modal-body">
+                    <label class="form-label" for="edit-task-title">Task Title</label>
+                    <input type="text" id="edit-task-title" class="form-input" required autocomplete="off">
+
+                    <div class="modal-row">
+                        <div class="modal-col">
+                            <label class="form-label" for="edit-task-date">Date</label>
+                            <input type="date" id="edit-task-date" class="form-input">
+                        </div>
+                        <div class="modal-col">
+                            <label class="form-label" for="edit-task-time">Time</label>
+                            <input type="time" id="edit-task-time" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="modal-row">
+                        <div class="modal-col">
+                            <label class="form-label" for="edit-task-priority">Priority</label>
+                            <select id="edit-task-priority" class="form-input">
+                                <option value="none">None</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                        <div class="modal-col">
+                            <label class="form-label" for="edit-task-tag">Category Tag</label>
+                            <input type="text" id="edit-task-tag" class="form-input" placeholder="e.g. Coding">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="cancel-edit-btn" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Floating GitHub Repo Link -->
+    <a href="https://github.com/VarunKulkarni15/SCT_WD_4" target="_blank" rel="noopener noreferrer" class="floating-repo-link" title="View Source Code on GitHub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        <span>View Code</span>
+    </a>
+
+    <!-- Unregister legacy service-worker and clear caches -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+        }
+        if (window.caches) {
+            caches.keys().then(function(names) {
+                for (let name of names) caches.delete(name);
+            });
+        }
+    </script>
     <script src="app.js"></script>
-<!-- GitHub Repo Link -->
-<a href="https://github.com/VarunKulkarni15/SCT_WD_4" target="_blank" style="position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); color: white; padding: 10px 15px; border-radius: 30px; text-decoration: none; font-family: sans-serif; font-size: 14px; font-weight: 500; backdrop-filter: blur(5px); display: flex; align-items: center; gap: 8px; z-index: 999999; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.background='rgba(20,20,20,1)';" onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(0,0,0,0.8)';">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-    View Code
-</a>
 </body>
 </html>
-

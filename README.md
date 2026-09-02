@@ -1,38 +1,47 @@
-# Sleek To-Do App
+# Sleek Task Manager 📋
 
-A highly polished, modern Task Management Progressive Web App (PWA) built with Vanilla HTML, CSS, and JavaScript.
+**[🔴 View Live Demo](https://to-do.varunkulkarni.dpdns.org/)** | **[📄 View Source Code](https://github.com/VarunKulkarni15/SCT_WD_4)**
 
-## 🌟 Features
+A minimalist, high-speed task management application inspired by modern productivity tools (Linear, Notion, Things3). Built with pure HTML5, modern CSS, and Vanilla JavaScript with zero external runtime dependencies.
 
-- **Beautiful UI/UX**: Custom CSS featuring glassmorphism, fluid animations, and a modern dark/light aesthetic.
-- **Offline First**: Fully functional without an internet connection using Service Workers.
-- **Push Notifications**: Receive desktop-level push notifications exactly when a task is due, backed by a custom in-app Toast Notification system to bypass OS restrictions.
-- **Persistent Storage**: All tasks are saved securely to your browser's LocalStorage.
-- **Task Prioritization**: Flag tasks as "High Priority" to highlight them visually in your workflow.
-- **Smart Time Calculations**: Automatically schedules and triggers reminders precisely on the minute.
+Developed as **Task 4** for the **Skillcraft Web Development Internship**.
 
-## 🚀 Live Demo
-You can deploy this repository to Cloudflare Pages or Vercel for an instant live PWA experience.
+---
 
-## 🛠️ Built With
+## ✨ Features
 
-- HTML5
-- Vanilla CSS3 (Custom Properties, Animations, Flexbox/Grid)
-- Vanilla JavaScript (ES6+)
-- Flatpickr (for elegant date/time selection)
-- Service Workers (for PWA offline caching)
+- **⚡ Natural Language Input Parser**: Type commands directly into the input bar, like:
+  `Finish weekly report tomorrow 5pm !high @coding`
+  The engine automatically detects dates (`tomorrow`, `today`), times (`5pm`, `10:30am`), priority flags (`!high`, `!med`, `!low`), and category tags (`@coding`, `#personal`).
+- **🎛️ Expandable Options Tray**: Click the dropdown chevron to manually set dates, pick times, select priorities, or click category chips with a clean native interface.
+- **🎨 Crisp White & Emerald UI**: Minimalist light theme with deep emerald green `#1b6f53` accents, high contrast, clean typography (Inter), and custom square checkboxes with smooth check animations.
+- **⌨️ Keyboard-First Power Shortcuts**:
+  - `N` → Instantly focus task input
+  - `/` → Jump straight to search
+  - `Esc` → Clear search or cancel
+- **🔍 Real-Time Search & Filters**: Instant search by task title or category tag, plus filter tabs for *All*, *Pending*, and *Completed*.
+- **📊 Dynamic Sorting**: Sort instantly by *Newest*, *Oldest*, *Priority* (High → Med → Low), or *Due Date*.
+- **💾 LocalStorage Persistence**: Automatically saves your entire workflow locally in the browser with seed sample tasks for first-time users.
+- **✏️ In-Place Task Editing**: Edit title, due date, time, priority, and category via an elegant modal dialog.
 
-## 📥 Local Installation
+---
+
+## 🚀 Tech Stack
+
+- **HTML5**: Semantic markup, accessible forms, native date/time pickers.
+- **Vanilla CSS3**: Modern CSS variables, flexbox, custom checkboxes, subtle micro-interactions, responsive mobile layout.
+- **Vanilla JavaScript (ES6+)**: Custom date parsing engine, DOM manipulation, LocalStorage synchronization, zero external libraries.
+
+---
+
+## 🛠️ Usage
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/VarunKulkarni15/SCT_WD_4.git
    ```
-2. Navigate to the directory:
-   ```bash
-   cd SCT_WD_4
-   ```
-3. Open `index.html` in your browser, or run via a local server (e.g. VSCode Live Server).
+2. Open `index.html` in your browser. No build steps, npm installs, or compilers needed!
 
-## 📱 PWA Support
-This application includes a `manifest.json` and a fully configured `service-worker.js`. It can be installed as a native app on Windows, macOS, iOS, and Android directly from the browser!
+---
+
+*Created by Varun Kulkarni for the Skillcraft Web Development Internship.*
