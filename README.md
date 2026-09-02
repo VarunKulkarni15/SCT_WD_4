@@ -14,7 +14,7 @@ Developed as **Task 4** for the **Skillcraft Web Development Internship**.
   `Finish weekly report tomorrow 5pm !high @coding`
   The engine automatically detects dates (`tomorrow`, `today`), times (`5pm`, `10:30am`), priority flags (`!high`, `!med`, `!low`), and category tags (`@coding`, `#personal`).
 - **🎛️ Expandable Options Tray**: Click the dropdown chevron to manually set dates, pick times, select priorities, or click category chips with a clean native interface.
-- **🎨 Crisp White & Emerald UI**: Minimalist light theme with deep emerald green `#1b6f53` accents, high contrast, clean typography (Inter), and custom square checkboxes with smooth check animations.
+- **🎨 Crisp White & Vibrant Cyan UI**: Minimalist light theme with modern cyan `#0891b2` accents, high contrast, clean typography (Inter), and custom square checkboxes with smooth check animations.
 - **⌨️ Keyboard-First Power Shortcuts**:
   - `N` → Instantly focus task input
   - `/` → Jump straight to search

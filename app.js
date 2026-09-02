@@ -40,38 +40,49 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFilter = 'all';
     let editingTaskId = null;
 
-    // Sample initial seed tasks (matching the user's friend's screenshot)
+    // Sample initial seed tasks (Refreshed developer tasks)
     const SEED_TASKS = [
         {
             id: 'task-1',
-            title: 'Finish project documentation',
-            dateStr: '5 Sep · 10:30 AM',
-            isoDate: '2026-09-05',
-            isoTime: '10:30',
+            title: 'Ship 3D landing page v1.0',
+            dateStr: '2 Sep · 10:00 AM',
+            isoDate: '2026-09-02',
+            isoTime: '10:00',
             priority: 'high',
-            tag: 'Coding',
+            tag: 'Frontend',
             completed: true,
-            createdAt: Date.now() - 3600000 * 48
+            createdAt: Date.now() - 3600000 * 72
         },
         {
             id: 'task-2',
-            title: 'Complete Python assignment',
-            dateStr: '4 Sep · 11:00 AM',
-            isoDate: '2026-09-04',
-            isoTime: '11:00',
-            priority: 'medium',
-            tag: 'College',
+            title: 'Optimize WebP sequence rendering pipeline',
+            dateStr: 'Tomorrow · 4:30 PM',
+            isoDate: '2026-09-03',
+            isoTime: '16:30',
+            priority: 'high',
+            tag: 'Performance',
             completed: false,
             createdAt: Date.now() - 3600000 * 24
         },
         {
             id: 'task-3',
-            title: 'Go for evening walk',
-            dateStr: '7 Sep · 6:00 AM',
-            isoDate: '2026-09-07',
-            isoTime: '06:00',
+            title: 'Implement interactive natural language task parser',
+            dateStr: '5 Sep · 11:00 AM',
+            isoDate: '2026-09-05',
+            isoTime: '11:00',
             priority: 'medium',
-            tag: 'Personal',
+            tag: 'Coding',
+            completed: false,
+            createdAt: Date.now() - 3600000 * 8
+        },
+        {
+            id: 'task-4',
+            title: 'Review pull requests & internship deliverables',
+            dateStr: '8 Sep · 2:00 PM',
+            isoDate: '2026-09-08',
+            isoTime: '14:00',
+            priority: 'low',
+            tag: 'Internship',
             completed: false,
             createdAt: Date.now()
         }
@@ -80,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load from LocalStorage or seed defaults
     let tasks = [];
     try {
-        const stored = localStorage.getItem('sleek_tasks');
+        const stored = localStorage.getItem('sleek_tasks_v2');
         if (stored) {
             const parsed = JSON.parse(stored);
             tasks = Array.isArray(parsed) && parsed.length > 0 ? parsed : SEED_TASKS;
@@ -95,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function saveTasks() {
         try {
-            localStorage.setItem('sleek_tasks', JSON.stringify(tasks));
+            localStorage.setItem('sleek_tasks_v2', JSON.stringify(tasks));
         } catch (e) {
             console.warn('Failed to save to localStorage:', e);
         }

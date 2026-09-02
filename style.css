@@ -1,6 +1,6 @@
 /* ==========================================================
    Sleek Task Manager - Modern Linear-Inspired Light Theme
-   Clean White + Emerald Accent (#1b6f53) + High-Contrast Typography
+   Clean White + Vibrant Cyan Accent (#0891b2) + High-Contrast Typography
    ========================================================== */
 
 :root {
@@ -16,17 +16,17 @@
     --border-color: #e5e7eb;
     --border-hover: #d1d5db;
     
-    --primary-color: #1b6f53;       /* Deep Forest / Emerald Green */
-    --primary-hover: #14553f;
-    --primary-light: rgba(27, 111, 83, 0.08);
-    --primary-focus: rgba(27, 111, 83, 0.15);
+    --primary-color: #0891b2;       /* Vibrant Modern Cyan */
+    --primary-hover: #0e7490;
+    --primary-light: rgba(8, 145, 178, 0.08);
+    --primary-focus: rgba(8, 145, 178, 0.18);
     
     --high-priority: #dc2626;
     --med-priority: #d97706;
     --low-priority: #4b5563;
     
-    --done-bg: #ecfdf5;
-    --done-text: #047857;
+    --done-bg: #ecfeff;
+    --done-text: #0e7490;
     
     --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
