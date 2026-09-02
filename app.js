@@ -13,6 +13,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let tasks = JSON.parse(localStorage.getItem('sleek_tasks')) || [];
     let editingTaskId = null;
+    let explicitDate = '';
+
+    // --- Flatpickr Setup ---
+    const datePickerInput = document.getElementById('date-picker');
+    const btnCalendar = document.getElementById('btn-calendar');
+    
+    const fp = flatpickr(datePickerInput, {
+        enableTime: true,
+        dateFormat: "M j, h:i K",
+        onChange: function(selectedDates, dateStr, instance) {
+            explicitDate = dateStr;
+            btnCalendar.classList.add('active');
+        }
+    });
+
+    btnCalendar.addEventListener('click', () => {
+        fp.open();
+    });
 
     // --- Core Functions ---
     function saveTasks() {
@@ -51,6 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (tagMatch) {
             tag = tagMatch[1];
             title = title.replace(tagMatch[0], '');
+        }
+
+        // Override with explicit date if set
+        if (explicitDate) {
+            dateStr = explicitDate;
         }
 
         return {
@@ -127,7 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const newTask = parseTaskInput(val);
         tasks.push(newTask);
         saveTasks();
+        
+        // Reset inputs
         taskInput.value = '';
+        explicitDate = '';
+        btnCalendar.classList.remove('active');
+        fp.clear();
+        
         renderTasks();
     });
 

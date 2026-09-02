@@ -10,6 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Flatpickr for explicit Calendar/Time -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -40,9 +43,15 @@
             <form id="task-form" class="task-input-container">
                 <div class="input-wrapper">
                     <i class="fa-solid fa-plus input-icon"></i>
-                    <input type="text" id="task-input" placeholder="Add a task... type: report tomorrow 5pm !high" autocomplete="off">
+                    <input type="text" id="task-input" placeholder="Add a task... or type '!high', 'tomorrow', '@work'" autocomplete="off">
                 </div>
-                <button type="submit" class="btn-add">Add</button>
+                <div class="input-actions">
+                    <input type="text" id="date-picker" class="hidden-picker" placeholder="Date">
+                    <button type="button" class="action-icon-btn" id="btn-calendar" title="Set Date & Time">
+                        <i class="fa-regular fa-calendar"></i>
+                    </button>
+                    <button type="submit" class="btn-add">Add</button>
+                </div>
             </form>
 
             <!-- Task List -->

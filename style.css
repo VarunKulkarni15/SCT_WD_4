@@ -166,6 +166,45 @@ body {
     color: var(--text-muted);
 }
 
+.input-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.action-icon-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-icon-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.action-icon-btn.active {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary-color);
+    border-color: rgba(37, 99, 235, 0.2);
+}
+
+.hidden-picker {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
 .btn-add {
     background: var(--primary-color);
     color: white;
@@ -180,6 +219,19 @@ body {
 
 .btn-add:hover {
     background: var(--primary-hover);
+}
+
+/* --- Flatpickr Light Theme Overrides --- */
+.flatpickr-calendar {
+    font-family: var(--font-ui) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+    border-radius: 12px !important;
+}
+
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
 }
 
 /* --- Task List --- */
