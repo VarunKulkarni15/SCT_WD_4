@@ -2,126 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sleek To-Do</title>
-    
-    <!-- Fonts: Inter for modern Apple-like UI -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Task Manager</title>
+    <!-- Inter Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4f726e">
-    
-    <!-- Flatpickr for custom sleek Date/Time dropdowns -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="dark-theme">
-
+<body>
     <div class="app-container">
-        
-        <!-- Header Section -->
-        <header class="header-section">
-            <div class="header-top">
-                <h1>Tasks</h1>
-                <button id="add-btn" class="icon-btn add-btn" title="Add New Task">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                </button>
+        <!-- Top Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1>All tasks</h1>
+                <span id="task-count" class="task-count">0 tasks</span>
             </div>
-            
-            <!-- Filters -->
-            <div class="filters">
-                <button class="filter-tab active" data-filter="all">All</button>
-                <button class="filter-tab" data-filter="pending">Pending</button>
-                <button class="filter-tab" data-filter="completed">Completed</button>
+            <div class="header-right">
+                <div class="search-container">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Search">
+                </div>
+                <div class="sort-container">
+                    <select id="sort-select">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                    </select>
+                </div>
             </div>
         </header>
 
-        <!-- Input Modal (Hidden by default) -->
-        <div id="task-modal" class="modal-overlay hidden">
-            <div class="modal-content glass-panel">
-                <div class="modal-header">
-                    <h2 id="modal-title">New Task</h2>
-                    <button id="close-modal" class="icon-btn close-btn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Add Task Input Area -->
+            <form id="task-form" class="task-input-container">
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-plus input-icon"></i>
+                    <input type="text" id="task-input" placeholder="Add a task... type: report tomorrow 5pm !high" autocomplete="off">
                 </div>
-                <form id="task-form">
-                    <input type="hidden" id="task-id">
-                    
-                    <div class="input-group">
-                        <label for="task-title">What needs to be done?</label>
-                        <input type="text" id="task-title" placeholder="e.g. Buy groceries" required autocomplete="off">
-                    </div>
-                    
-                    <div class="datetime-row">
-                        <div class="input-group">
-                            <label for="task-date">Date</label>
-                            <input type="date" id="task-date" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="task-time">Time</label>
-                            <input type="time" id="task-time" required>
-                        </div>
-                    </div>
-                    
-                    <div class="priority-row">
-                        <label for="task-priority" class="priority-label">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-                            High Priority
-                        </label>
-                        <label class="switch">
-                            <input type="checkbox" id="task-priority">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">Save Task</button>
-                </form>
-            </div>
-        </div>
+                <button type="submit" class="btn-add">Add</button>
+            </form>
 
-        <!-- Task List Area -->
-        <main class="task-list-container">
-            <div id="empty-state" class="empty-state hidden">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
-                <p>All clear! You have no tasks here.</p>
+            <!-- Task List -->
+            <div class="task-list" id="task-list">
+                <!-- Tasks will be dynamically injected here -->
             </div>
-            
-            <ul id="task-list" class="task-list">
-                <!-- Tasks will be injected here by JS -->
-            </ul>
         </main>
 
+        <!-- Keyboard Shortcuts Legend -->
+        <footer class="shortcuts-legend">
+            <div class="shortcut"><kbd>N</kbd> new task</div>
+            <div class="shortcut"><kbd>/</kbd> search</div>
+            <div class="shortcut"><kbd>Esc</kbd> close or cancel</div>
+        </footer>
     </div>
 
-    <!-- In-App Toast Notification -->
-    <div id="toast-container" class="toast-container"></div>
+    <!-- Edit Task Modal (Hidden by Default) -->
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Edit Task</h3>
+            <input type="text" id="edit-input" class="edit-input">
+            <div class="modal-actions">
+                <button type="button" id="cancel-edit" class="btn-secondary">Cancel</button>
+                <button type="button" id="save-edit" class="btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
-    <script>
-        // Register Service Worker for Offline Mode
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(registration => console.log('ServiceWorker registered'))
-                    .catch(error => console.log('ServiceWorker registration failed:', error));
-            });
-        }
-    </script>
 </body>
 </html>
